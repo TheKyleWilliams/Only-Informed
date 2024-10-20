@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block title %}Home | Only Informed{% endblock %}
+{% block content %}
+<div class="jumbotron">
+    <h1 class="display-4">Welcome to Only Informed</h1>
+    <p class="lead">Stay informed with the latest news and test your understanding.</p>
+    <hr class="my-4">
+    <p>Get started by browsing our articles or signing up if you're new.</p>
+    <a class="btn btn-primary btn-lg" href="{{ url_for('register') }}" role="button">Sign Up</a>
+    <a class="btn btn-secondary btn-lg" href="{{ url_for('articles') }}" role="button">Browse Articles</a>
+</div>
+{% endblock %}
+
+
+

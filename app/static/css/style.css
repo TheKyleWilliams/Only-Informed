@@ -1,0 +1,24 @@
+/* General Styles */
+body {
+    font-family: Arial, sans-serif;
+    margin-top: 70px;
+}
+
+/* Navigation Bar Customization */
+.navbar-brand {
+    font-weight: bold;
+}
+
+.navbar-nav .nav-link {
+    margin-right: 15px;
+}
+
+/* Container Styling */
+.container {
+    max-width: 960px;
+}
+
+/* Flash Messages */
+.alert {
+    margin-top: 20px;
+}
