@@ -3,6 +3,7 @@
 {% block content %}
 <h2>Register</h2>
 <form method="POST" action="{{ url_for('register') }}">
+    <!-- Cross-Site Request Forgery Protection -->
     {{ form.hidden_tag() }}
     <div class="form-group">
         {{ form.username.label(class="form-control-label") }}

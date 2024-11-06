@@ -53,6 +53,9 @@ def login():
             # logs in user
             login_user(user, remember=form.remember.data)
 
+            # flask success
+            flash('Login successful', 'success')
+
             # redirects user to where they wanted to go
             next_page = request.args.get('next')
             return redirect(next_page) if next_page else redirect(url_for('home'))
@@ -63,6 +66,7 @@ def login():
 @app.route('/logout')
 def logout():
     logout_user()
+    flash('You have been logged out.', 'info')
     return redirect(url_for('home'))
 
 @app.route('/articles')
@@ -72,6 +76,7 @@ def articles():
     return render_template('articles.html', articles=articles)
 
 @app.route('/article/<int:article_id>')
+@login_required
 def article(article_id):
     article = Article.query.get_or_404(article_id)
     return render_template('article.html', article=article)

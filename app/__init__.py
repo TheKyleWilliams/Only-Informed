@@ -22,6 +22,6 @@ migrate = Migrate(app, db)
 bcrypt = Bcrypt(app) # provides password hashing utilites
 login_manager = LoginManager(app) # manages user sessions
 login_manager.login_view = 'login' # redirects unauthorized users to login page
-login_manager.login_message_category = 'info'
+login_manager.login_message_category = 'info' # flash message category
 
 from app import routes, models
