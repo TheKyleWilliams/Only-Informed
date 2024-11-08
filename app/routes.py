@@ -72,7 +72,7 @@ def logout():
 @app.route('/articles')
 def articles():
     page = request.args.get('page', 1, type=int)
-    articles = Article.query.order_by(Article.date_posted.desc()).paginate(page=page, per_page=5)
+    articles = Article.query.order_by(Article.date_posted.desc()).paginate(page=page, per_page=10)
     return render_template('articles.html', articles=articles)
 
 @app.route('/article/<int:article_id>')

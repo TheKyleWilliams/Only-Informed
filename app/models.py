@@ -1,7 +1,9 @@
-from datetime import datetime
+from datetime import datetime, timezone
 from app import db, login_manager
 from flask_login import UserMixin
 from sqlalchemy.orm import relationship
+from sqlalchemy import Boolean, Column, Integer, ForeignKey, Table
+from sqlalchemy.sql import expression
 
 # Notes 
 # for one-to-many relationships, use relationship() on the 'one' side 
@@ -42,10 +44,10 @@ class Article(db.Model):
 
     # define attributes 
     id = db.Column(db.Integer, primary_key = True)
-    title = db.Column(db.String(200), nullable = False)
+    title = db.Column(db.String(250), nullable = False, unique = True)
     content = db.Column(db.Text, nullable = False)
     source = db.Column(db.String(200), nullable = False)
-    date_posted = db.Column(db.DateTime, nullable = False, default = datetime.utcnow)
+    date_posted = db.Column(db.DateTime, nullable = False, default = datetime.now(timezone.utc))
  
     # relationships 
     quiz = relationship('Quiz', uselist = False, backref = 'article') # uselist=false indicates a 1 to 1 relationship with quiz
@@ -61,7 +63,7 @@ class Quiz(db.Model):
 
     # attributes
     id = db.Column(db.Integer, primary_key = True)
-    article_id = db.Column(db.Integer, db.ForeignKey('article.id'), nullable = False)
+    article_id = db.Column(db.Integer, db.ForeignKey('article.id', name="fk_quiz_article"), nullable = False)
     questions = db.Column(db.Text, nullable = False) # store as JSON string
 
     # string representation of Quiz object 
@@ -76,8 +78,8 @@ class Comment(db.Model):
     id = db.Column(db.Integer, primary_key = True)
     content = db.Column(db.Text, nullable = False)
     date_posted = db.Column(db.DateTime, nullable = False, default = datetime.utcnow)
-    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable = False)
-    article_id = db.Column(db.Integer, db.ForeignKey('article.id'), nullable = False)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id', name="fk_comment_user"), nullable = False)
+    article_id = db.Column(db.Integer, db.ForeignKey('article.id', name="fk_comment_article"), nullable = False)
 
 
     # string representation of Comment object
@@ -86,9 +88,14 @@ class Comment(db.Model):
 
 # Association table for User <-> Quiz
 # connects to user.id and quiz.id via foreign keys
-user_quiz = db.Table('user_quiz', 
-    db.Column('user_id', db.Integer, db.ForeignKey('user.id'), primary_key = True), 
-    db.Column('quiz_id', db.Integer, db.ForeignKey('quiz.id'), primary_key = True), 
-    db.Column('passed', db.Boolean, nullable = False, default = False)
+user_quiz = db.Table(
+    'user_quiz',
+    db.Column('user_id', db.Integer, db.ForeignKey('user.id', name="fk_user_quiz_user"), primary_key=True),
+    db.Column('quiz_id', db.Integer, db.ForeignKey('quiz.id', name="fk_user_quiz_quiz"), primary_key=True),
+    db.Column(
+        'passed',
+        db.Boolean,
+        nullable=False,
+        server_default=expression.false()  # Set server default without additional naming
+    )
 )
-
