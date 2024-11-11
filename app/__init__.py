@@ -16,6 +16,7 @@ app = Flask(__name__)
 # configure secret key and database URI from environment variables
 app.config['SECRET_KEY'] = os.getenv('SECRET_KEY')  # Access SECRET_KEY from environment
 app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('SQLALCHEMY_DATABASE_URI')  # Access DB URI
+app.config['OPENAI_API_KEY'] = os.getenv('OPENAI_API_KEY')
 
 # Initialize extensions
 db = SQLAlchemy(app)
