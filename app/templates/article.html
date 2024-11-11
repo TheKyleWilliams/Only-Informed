@@ -4,7 +4,7 @@
 <h2>{{ article.title }}</h2>
 <p class="text-muted">Posted on {{ article.date_posted.strftime('%Y-%m-%d') }}</p>
 <p>{{ article.content }}</p>
-<p>Source: <a href="{{ article.source }}">{{ article.source }}</a></p>
+<p>Source: <a href="{{ article.source }}" target="_blank">{{ article.source }}</a></p>
 
 <!-- Placeholder for Quiz and Comments (to be implemented later) -->
 {% endblock %}
