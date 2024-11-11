@@ -65,10 +65,11 @@ class Quiz(db.Model):
     id = db.Column(db.Integer, primary_key = True)
     article_id = db.Column(db.Integer, db.ForeignKey('article.id', name="fk_quiz_article"), nullable = False)
     questions = db.Column(db.Text, nullable = False) # store as JSON string
+    date_generated = db.Column(db.DateTime, nullable = False, default = datetime.utcnow)
 
     # string representation of Quiz object 
     def __repr__(self):
-        return f"Quiz(Article ID: {self.article_id})"
+        return f"Quiz(Article ID: {self.article_id}, Generated: {self.date_generated})"
 
 # Comment Entity
 class Comment(db.Model):
