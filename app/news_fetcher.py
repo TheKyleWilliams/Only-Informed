@@ -3,6 +3,7 @@ from app import db
 from app.models import Article
 from datetime import datetime
 from dateutil import parser as date_parser
+from newspaper import Article as NewsArticle
 import ssl
 
 # bypass SSL certificate errors, if any
@@ -50,10 +51,12 @@ def fetch_articles():
 
                 # if new article
                 if not existing_article:
+                    article_text = get_full_article_content(link)
+
                     # create new article object
                     article = Article(
                         title = title,
-                        content = summary,
+                        content = article_text,
                         source = link,
                         date_posted = published_date
                     )
@@ -67,6 +70,13 @@ def fetch_articles():
 
         except Exception as e:
             print(f"Exception occured while fetching feed {feed_url}: {e}")
+
+def get_full_article_content(url):
+    article = NewsArticle(url)
+    article.download()
+    article.parse()
+    return article.text
+
 
 if __name__ == '__main__':
     from app import app
