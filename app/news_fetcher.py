@@ -30,7 +30,7 @@ def fetch_articles():
                 # extract relevant data from RSS feed structure
                 title = entry.title
                 link = entry.link
-                summary = entry.summary if 'summary' in entry else ''
+                #summary = entry.summary if 'summary' in entry else ''
 
                 # handle different date formats
                 if 'published' in entry:
@@ -71,14 +71,17 @@ def fetch_articles():
         except Exception as e:
             print(f"Exception occured while fetching feed {feed_url}: {e}")
 
+# grab entire article content 
 def get_full_article_content(url):
     article = NewsArticle(url)
     article.download()
     article.parse()
     return article.text
 
-
+# allows news_fetcher to be run manually as a module
 if __name__ == '__main__':
     from app import app
-    with app.app_context():
+
+    # ensures that app operations will run despite flask not be 'run'
+    with app.app_context(): 
         fetch_articles()

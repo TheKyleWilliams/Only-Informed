@@ -13,9 +13,7 @@ logger = logging.getLogger(__name__)
 openai.api_key = os.getenv('OPENAI_API_KEY')
 
 def clean_quiz_text(quiz_text):
-    """
-    Removes code fencing and extraneous characters from the quiz_text.
-    """
+    # Removes code fencing and extra characters from the quiz_text.
     # Remove code fencing if present
     if quiz_text.startswith("```") and quiz_text.endswith("```"):
         # Split by newlines and ignore the first and last lines
@@ -56,6 +54,7 @@ def generate_quiz(article_id, retries=3, delay=5):
     {article.content}
     """
 
+    # attemps api call three times with a delay to avoid api errors
     for attempt in range(retries):
         try:
             # API Call
@@ -67,7 +66,7 @@ def generate_quiz(article_id, retries=3, delay=5):
                 ],
                 max_tokens=1000,
                 temperature=0.7,
-                stop=["\n\n"]  # To prevent the AI from adding extra text after JSON
+                stop=["\n\n"]  # To prevent chatgpt from adding extra text after JSON
             )
             
             # Extract quiz text from API response
@@ -76,7 +75,7 @@ def generate_quiz(article_id, retries=3, delay=5):
             # Clean the quiz_text
             quiz_text = clean_quiz_text(quiz_text)
 
-            # Log the raw quiz_text for debugging
+            # Log the raw quiz_text for debugging purposes
             logger.info(f"Raw quiz_text for Article ID {article_id}: {quiz_text}")
 
 
@@ -89,15 +88,17 @@ def generate_quiz(article_id, retries=3, delay=5):
                 print(f"Failed to parse quiz JSON for Article ID {article_id}")
                 return None
 
-            # Additional validation
+            # Checks that API response is a python list as specified
             if not isinstance(quiz_questions, list):
                 logger.error(f"Quiz JSON is not a list for Article ID {article_id}")
                 raise ValueError("Quiz JSON is not a list.")
 
             for q in quiz_questions:
+                # Ensures that quiz_questions list is in the right format with a question, options, and corrrect_answer
                 if not all(k in q for k in ("question", "options", "correct_answer")):
                     logger.error(f"Quiz JSON missing fields in Article ID {article_id}: {q}")
                     raise ValueError("Quiz JSON missing required fields.")
+                # Checks that options is a list and has exactly 4 options
                 if not isinstance(q['options'], list) or len(q['options']) != 4:
                     logger.error(f"Quiz options are not a list of four in Article ID {article_id}: {q}")
                     raise ValueError("Quiz options are not a list of four.")
@@ -107,6 +108,8 @@ def generate_quiz(article_id, retries=3, delay=5):
                 article_id=article.id,
                 questions=json.dumps(quiz_questions)  # Store as JSON string
             )
+
+            # commit and add to database
             db.session.add(quiz)
             db.session.commit()
 

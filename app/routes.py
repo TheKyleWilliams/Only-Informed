@@ -74,6 +74,7 @@ def logout():
 
 @app.route('/articles')
 def articles():
+    # grabs page parameter, default = 1 if none is provided
     page = request.args.get('page', 1, type=int)
     articles = Article.query.order_by(Article.date_posted.desc()).paginate(page=page, per_page=10)
     return render_template('articles.html', articles=articles)
@@ -87,6 +88,7 @@ def article(article_id):
     # Retrieve the associated quiz
     quiz = Quiz.query.filter_by(article_id=article_id).first()
     
+    # generates quiz if one doesn't already exist
     if not quiz:
         logger.info(f"Article ID {article_id}: No quiz found. Generating quiz...")
         quiz = generate_quiz(article_id)
@@ -95,7 +97,7 @@ def article(article_id):
     
     if quiz:
         try:
-            # Parse the JSON string into a Python object
+            # Parse the JSON string into a Python list
             quiz_questions = json.loads(quiz.questions)
             logger.info(f"Article ID {article_id}: Parsed quiz_questions successfully.")
         except json.JSONDecodeError as e:
@@ -139,10 +141,12 @@ def generate_quiz_route(article_id):
 @app.route('/submit_quiz', methods=['POST'])
 @login_required
 def submit_quiz():
+    # grabs data sent to backend
     data = request.get_json()
     article_id = data.get('article_id')
     responses = data.get('responses')
 
+    # error with sent data
     if not article_id or not responses:
         logger.error("Invalid data received: Missing article_id or responses.")
         return jsonify({'status': 'failure', 'message': 'Invalid data.'}), 400
@@ -154,16 +158,18 @@ def submit_quiz():
         return jsonify({'status': 'failure', 'message': 'Quiz not found.'}), 404
 
     try:
-        # Parse the quiz questions
+        # Parse the quiz questions into a list
         quiz_questions = json.loads(quiz.questions)
     except json.JSONDecodeError as e:
         logger.error(f"Invalid JSON in quiz.questions for Article ID {article_id}: {e}")
         return jsonify({'status': 'failure', 'message': 'Quiz data corrupted.'}), 500
 
+    # initialize scoring variables
     score = 0
     total = len(quiz_questions)
     feedback = []
 
+    # score quiz results
     for i, question in enumerate(quiz_questions):
         q_text = question.get('question')
         correct_answer = question.get('correct_answer')

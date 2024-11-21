@@ -1,5 +1,6 @@
 // waits for all html to load before running
 document.addEventListener('DOMContentLoaded', function() {
+    // waits 5 seconds then 'fades' all alerts
     setTimeout(function() {
         const alerts = document.querySelectorAll('.alert');
         alerts.forEach(function(alert) {
@@ -18,7 +19,7 @@ document.addEventListener('DOMContentLoaded', function() {
         renderQuiz(quizData);
 
         quizForm.addEventListener('submit', function(event) {
-            event.preventDefault(); // Prevent default form submission
+            event.preventDefault(); // Prevents page from reloading on submission
 
             // Collect user responses
             const formData = new FormData(quizForm);
@@ -29,7 +30,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 responses[name] = value;
             }
 
-            // Frontend validation: Ensure all questions are answered
+            // Frontend validation: Ensures all questions are answered
             const totalQuestions = quizData.length;
             let answeredQuestions = 0;
 
@@ -57,6 +58,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 })
             })
             .then(response => response.json())
+            // feedback
             .then(data => {
                 const resultsDiv = document.getElementById('quiz-results');
                 if (data.status === 'success') {
@@ -143,84 +145,84 @@ function renderQuiz(quizData) {
     });
 }
 
-// Handle Quiz Submission
-const quizForm = document.getElementById('quiz-form');
-if (quizForm) {
-    // Render the quiz once
-    renderQuiz(quizData);
+// // Handle Quiz Submission
+// const quizForm = document.getElementById('quiz-form');
+// if (quizForm) {
+//     // Render the quiz once
+//     renderQuiz(quizData);
 
-    quizForm.addEventListener('submit', function(event) {
-        event.preventDefault(); // Prevent default form submission
+//     quizForm.addEventListener('submit', function(event) {
+//         event.preventDefault(); // Prevent default form submission
 
-        // Collect user responses
-        const formData = new FormData(quizForm);
-        const responses = {};
+//         // Collect user responses
+//         const formData = new FormData(quizForm);
+//         const responses = {};
 
-        // Iterate over form entries and build the responses object
-        for (let [name, value] of formData.entries()) {
-            responses[name] = value;
-        }
+//         // Iterate over form entries and build the responses object
+//         for (let [name, value] of formData.entries()) {
+//             responses[name] = value;
+//         }
 
-        // Frontend validation: Ensure all questions are answered
-        const totalQuestions = quizData.length;
-        let answeredQuestions = 0;
+//         // Frontend validation: Ensure all questions are answered
+//         const totalQuestions = quizData.length;
+//         let answeredQuestions = 0;
 
-        for (let i = 0; i < totalQuestions; i++) {
-            if (responses[`question_${i}`]) {
-                answeredQuestions += 1;
-            }
-        }
+//         for (let i = 0; i < totalQuestions; i++) {
+//             if (responses[`question_${i}`]) {
+//                 answeredQuestions += 1;
+//             }
+//         }
 
-        if (answeredQuestions < totalQuestions) {
-            alert('Please answer all questions before submitting the quiz.');
-            return;
-        }
+//         if (answeredQuestions < totalQuestions) {
+//             alert('Please answer all questions before submitting the quiz.');
+//             return;
+//         }
 
-        // Send responses to the backend for validation
-        fetch('/submit_quiz', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'X-CSRFToken': getCookie('csrf_token') // Ensure CSRF protection
-            },
-            body: JSON.stringify({
-                article_id: quizForm.dataset.articleId, // Pass article ID
-                responses: responses
-            })
-        })
-        .then(response => response.json())
-        .then(data => {
-            const resultsDiv = document.getElementById('quiz-results');
-            if (data.status === 'success') {
-                let feedbackHTML = `<div class="alert alert-success">You scored ${data.score} out of ${data.total}.</div>`;
-                feedbackHTML += `<ul class="list-group">`;
-                data.feedback.forEach((item, index) => {
-                    feedbackHTML += `
-                        <li class="list-group-item">
-                            <strong>Question ${index + 1}:</strong> ${item.question}<br>
-                            <strong>Your Answer:</strong> ${item.your_answer}<br>
-                            <strong>Correct Answer:</strong> ${item.correct_answer}<br>
-                            ${item.is_correct ? '<span class="text-success">Correct</span>' : '<span class="text-danger">Incorrect</span>'}
-                        </li>
-                    `;
-                });
-                feedbackHTML += `</ul>`;
-                resultsDiv.innerHTML = feedbackHTML;
+//         // Send responses to the backend for validation
+//         fetch('/submit_quiz', {
+//             method: 'POST',
+//             headers: {
+//                 'Content-Type': 'application/json',
+//                 'X-CSRFToken': getCookie('csrf_token') // Ensure CSRF protection
+//             },
+//             body: JSON.stringify({
+//                 article_id: quizForm.dataset.articleId, // Pass article ID
+//                 responses: responses
+//             })
+//         })
+//         .then(response => response.json())
+//         .then(data => {
+//             const resultsDiv = document.getElementById('quiz-results');
+//             if (data.status === 'success') {
+//                 let feedbackHTML = `<div class="alert alert-success">You scored ${data.score} out of ${data.total}.</div>`;
+//                 feedbackHTML += `<ul class="list-group">`;
+//                 data.feedback.forEach((item, index) => {
+//                     feedbackHTML += `
+//                         <li class="list-group-item">
+//                             <strong>Question ${index + 1}:</strong> ${item.question}<br>
+//                             <strong>Your Answer:</strong> ${item.your_answer}<br>
+//                             <strong>Correct Answer:</strong> ${item.correct_answer}<br>
+//                             ${item.is_correct ? '<span class="text-success">Correct</span>' : '<span class="text-danger">Incorrect</span>'}
+//                         </li>
+//                     `;
+//                 });
+//                 feedbackHTML += `</ul>`;
+//                 resultsDiv.innerHTML = feedbackHTML;
 
-                // Disable the form to prevent resubmission
-                quizForm.querySelectorAll('input').forEach(input => input.disabled = true);
-                quizForm.querySelector('button[type="submit"]').disabled = true;
-            } else {
-                resultsDiv.innerHTML = `<div class="alert alert-danger">${data.message}</div>`;
-            }
-        })
-        .catch(error => {
-            console.error('Error:', error);
-            const resultsDiv = document.getElementById('quiz-results');
-            resultsDiv.innerHTML = `<div class="alert alert-danger">An error occurred while submitting your quiz. Please try again later.</div>`;
-        });
-    });
-}
+//                 // Disable the form to prevent resubmission
+//                 quizForm.querySelectorAll('input').forEach(input => input.disabled = true);
+//                 quizForm.querySelector('button[type="submit"]').disabled = true;
+//             } else {
+//                 resultsDiv.innerHTML = `<div class="alert alert-danger">${data.message}</div>`;
+//             }
+//         })
+//         .catch(error => {
+//             console.error('Error:', error);
+//             const resultsDiv = document.getElementById('quiz-results');
+//             resultsDiv.innerHTML = `<div class="alert alert-danger">An error occurred while submitting your quiz. Please try again later.</div>`;
+//         });
+//     });
+// }
 
 // Function to get CSRF token from cookies
 function getCookie(name) {
