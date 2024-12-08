@@ -30,22 +30,17 @@ def generate_quiz(article_id, retries=3, delay=5):
     if not article:
         logger.error(f"Article ID {article_id} not found.")
         return None  # Or handle the error as needed
-    
-    # Design the prompt with escaped braces
+
+    # Design the prompt
     prompt = f"""
-    Read the following article and generate a 5-question multiple-choice quiz to test the reader's understanding of the content. Each question should have one correct answer and three plausible distractors. Ensure that the response is valid JSON **without any markdown, code fencing, or additional text**.
+    Read the following article and generate a 5-question multiple-choice quiz to test the reader's understanding of the content. Each question should have one correct answer and three plausible distractors. Ensure that the response is valid JSON without markdown or code fencing.
 
-    Format the quiz as a JSON array of objects, each containing the following fields:
-    - "question": The quiz question.
-    - "options": An array of four answer options.
-    - "correct_answer": The correct answer string.
-
-    Example:
+    Format:
     [
         {{
-            "question": "What is the capital of France?",
-            "options": ["Paris", "London", "Rome", "Berlin"],
-            "correct_answer": "Paris"
+            "question": "Question text",
+            "options": ["A", "B", "C", "D"],
+            "correct_answer": "A"
         }},
         ...
     ]
@@ -54,66 +49,48 @@ def generate_quiz(article_id, retries=3, delay=5):
     {article.content}
     """
 
-    # attemps api call three times with a delay to avoid api errors
     for attempt in range(retries):
         try:
-            # API Call
             response = openai.ChatCompletion.create(
-                model="gpt-3.5-turbo",  # or "gpt-4" if available
+                model="gpt-3.5-turbo",
                 messages=[
-                    {"role": "system", "content": "You are an AI that generates quiz questions based on provided articles."},
+                    {"role": "system", "content": "You are an AI that generates quiz questions."},
                     {"role": "user", "content": prompt}
                 ],
                 max_tokens=1000,
-                temperature=0.7,
-                stop=["\n\n"]  # To prevent chatgpt from adding extra text after JSON
+                temperature=0.7
             )
             
-            # Extract quiz text from API response
             quiz_text = response['choices'][0]['message']['content'].strip()
-
-            # Clean the quiz_text
             quiz_text = clean_quiz_text(quiz_text)
-
-            # Log the raw quiz_text for debugging purposes
             logger.info(f"Raw quiz_text for Article ID {article_id}: {quiz_text}")
 
-
-            # Parse the JSON response
             try:
                 quiz_questions = json.loads(quiz_text)
             except json.JSONDecodeError as e:
                 logger.error(f"JSON parsing error for Article ID {article_id}: {e}")
                 logger.error(f"Received quiz_text: {quiz_text}")
-                print(f"Failed to parse quiz JSON for Article ID {article_id}")
                 return None
 
-            # Checks that API response is a python list as specified
             if not isinstance(quiz_questions, list):
                 logger.error(f"Quiz JSON is not a list for Article ID {article_id}")
-                raise ValueError("Quiz JSON is not a list.")
+                return None
 
             for q in quiz_questions:
-                # Ensures that quiz_questions list is in the right format with a question, options, and corrrect_answer
                 if not all(k in q for k in ("question", "options", "correct_answer")):
-                    logger.error(f"Quiz JSON missing fields in Article ID {article_id}: {q}")
-                    raise ValueError("Quiz JSON missing required fields.")
-                # Checks that options is a list and has exactly 4 options
+                    logger.error(f"Quiz JSON missing fields for Article ID {article_id}: {q}")
+                    return None
                 if not isinstance(q['options'], list) or len(q['options']) != 4:
-                    logger.error(f"Quiz options are not a list of four in Article ID {article_id}: {q}")
-                    raise ValueError("Quiz options are not a list of four.")
+                    logger.error(f"Quiz options not valid for Article ID {article_id}: {q}")
+                    return None
 
-            # Create a new Quiz object
+            # Create a new Quiz object but DO NOT commit here
             quiz = Quiz(
                 article_id=article.id,
-                questions=json.dumps(quiz_questions)  # Store as JSON string
+                questions=json.dumps(quiz_questions)
             )
 
-            # commit and add to database
-            db.session.add(quiz)
-            db.session.commit()
-
-            logger.info(f"Successfully added quiz for Article ID {article_id}")
+            logger.info(f"Successfully generated quiz object for Article ID {article_id}")
             return quiz
 
         except json.JSONDecodeError as e:
@@ -123,13 +100,9 @@ def generate_quiz(article_id, retries=3, delay=5):
                 logger.info(f"Retrying in {delay} seconds...")
                 time.sleep(delay)
             else:
-                logger.error(f"Failed to parse quiz JSON for Article ID {article_id} after {retries} attempts.")
+                logger.error(f"Failed after {retries} attempts for Article ID {article_id}")
                 return None
-        except ValueError as e:
-            logger.error(f"Validation error for Article ID {article_id}: {e}")
-            return None
         except Exception as e:
             logger.error(f"Error generating quiz for Article ID {article_id}: {e}")
-            print(f"Error generating quiz for Article ID {article_id}: {e}")
+            db.session.rollback()  # Rollback if something failed
             return None
-        
