@@ -1,0 +1,126 @@
+2024-12-09 00:05:35,609 ERROR: Exception on /register [POST] [in C:\Users\kylew\Documents\OnlyInformed\venv\Lib\site-packages\flask\app.py:838]
+Traceback (most recent call last):
+  File "C:\Users\kylew\Documents\OnlyInformed\venv\Lib\site-packages\sqlalchemy\engine\base.py", line 1967, in _exec_single_context
+    self.dialect.do_execute(
+  File "C:\Users\kylew\Documents\OnlyInformed\venv\Lib\site-packages\sqlalchemy\engine\default.py", line 941, in do_execute
+    cursor.execute(statement, parameters)
+sqlite3.OperationalError: database is locked
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\kylew\Documents\OnlyInformed\venv\Lib\site-packages\flask\app.py", line 1473, in wsgi_app
+    response = self.full_dispatch_request()
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\kylew\Documents\OnlyInformed\venv\Lib\site-packages\flask\app.py", line 882, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\kylew\Documents\OnlyInformed\venv\Lib\site-packages\flask\app.py", line 880, in full_dispatch_request
+    rv = self.dispatch_request()
+         ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\kylew\Documents\OnlyInformed\venv\Lib\site-packages\flask\app.py", line 865, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\kylew\Documents\OnlyInformed\app\routes.py", line 44, in register
+    db.session.commit()
+  File "C:\Users\kylew\Documents\OnlyInformed\venv\Lib\site-packages\sqlalchemy\orm\scoping.py", line 597, in commit
+    return self._proxied.commit()
+           ^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\kylew\Documents\OnlyInformed\venv\Lib\site-packages\sqlalchemy\orm\session.py", line 2028, in commit
+    trans.commit(_to_root=True)
+  File "<string>", line 2, in commit
+  File "C:\Users\kylew\Documents\OnlyInformed\venv\Lib\site-packages\sqlalchemy\orm\state_changes.py", line 139, in _go
+    ret_value = fn(self, *arg, **kw)
+                ^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\kylew\Documents\OnlyInformed\venv\Lib\site-packages\sqlalchemy\orm\session.py", line 1313, in commit
+    self._prepare_impl()
+  File "<string>", line 2, in _prepare_impl
+  File "C:\Users\kylew\Documents\OnlyInformed\venv\Lib\site-packages\sqlalchemy\orm\state_changes.py", line 139, in _go
+    ret_value = fn(self, *arg, **kw)
+                ^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\kylew\Documents\OnlyInformed\venv\Lib\site-packages\sqlalchemy\orm\session.py", line 1288, in _prepare_impl
+    self.session.flush()
+  File "C:\Users\kylew\Documents\OnlyInformed\venv\Lib\site-packages\sqlalchemy\orm\session.py", line 4352, in flush
+    self._flush(objects)
+  File "C:\Users\kylew\Documents\OnlyInformed\venv\Lib\site-packages\sqlalchemy\orm\session.py", line 4487, in _flush
+    with util.safe_reraise():
+  File "C:\Users\kylew\Documents\OnlyInformed\venv\Lib\site-packages\sqlalchemy\util\langhelpers.py", line 146, in __exit__
+    raise exc_value.with_traceback(exc_tb)
+  File "C:\Users\kylew\Documents\OnlyInformed\venv\Lib\site-packages\sqlalchemy\orm\session.py", line 4448, in _flush
+    flush_context.execute()
+  File "C:\Users\kylew\Documents\OnlyInformed\venv\Lib\site-packages\sqlalchemy\orm\unitofwork.py", line 466, in execute
+    rec.execute(self)
+  File "C:\Users\kylew\Documents\OnlyInformed\venv\Lib\site-packages\sqlalchemy\orm\unitofwork.py", line 642, in execute
+    util.preloaded.orm_persistence.save_obj(
+  File "C:\Users\kylew\Documents\OnlyInformed\venv\Lib\site-packages\sqlalchemy\orm\persistence.py", line 93, in save_obj
+    _emit_insert_statements(
+  File "C:\Users\kylew\Documents\OnlyInformed\venv\Lib\site-packages\sqlalchemy\orm\persistence.py", line 1233, in _emit_insert_statements
+    result = connection.execute(
+             ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\kylew\Documents\OnlyInformed\venv\Lib\site-packages\sqlalchemy\engine\base.py", line 1418, in execute
+    return meth(
+           ^^^^^
+  File "C:\Users\kylew\Documents\OnlyInformed\venv\Lib\site-packages\sqlalchemy\sql\elements.py", line 515, in _execute_on_connection
+    return connection._execute_clauseelement(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\kylew\Documents\OnlyInformed\venv\Lib\site-packages\sqlalchemy\engine\base.py", line 1640, in _execute_clauseelement
+    ret = self._execute_context(
+          ^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\kylew\Documents\OnlyInformed\venv\Lib\site-packages\sqlalchemy\engine\base.py", line 1846, in _execute_context
+    return self._exec_single_context(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\kylew\Documents\OnlyInformed\venv\Lib\site-packages\sqlalchemy\engine\base.py", line 1986, in _exec_single_context
+    self._handle_dbapi_exception(
+  File "C:\Users\kylew\Documents\OnlyInformed\venv\Lib\site-packages\sqlalchemy\engine\base.py", line 2355, in _handle_dbapi_exception
+    raise sqlalchemy_exception.with_traceback(exc_info[2]) from e
+  File "C:\Users\kylew\Documents\OnlyInformed\venv\Lib\site-packages\sqlalchemy\engine\base.py", line 1967, in _exec_single_context
+    self.dialect.do_execute(
+  File "C:\Users\kylew\Documents\OnlyInformed\venv\Lib\site-packages\sqlalchemy\engine\default.py", line 941, in do_execute
+    cursor.execute(statement, parameters)
+sqlalchemy.exc.OperationalError: (sqlite3.OperationalError) database is locked
+[SQL: INSERT INTO user (username, email, password) VALUES (?, ?, ?)]
+[parameters: ('vbnjm', 'one@gmail.com', '$2b$12$03tn7WHmeIaMfGOTFxuez.WMDkTjwjpuf/P3fIBs6VbCZMcEz1oxO')]
+(Background on this error at: https://sqlalche.me/e/20/e3q8)
+2024-12-09 00:06:31,818 INFO: App startup [in C:\Users\kylew\Documents\OnlyInformed\app\__init__.py:76]
+2024-12-09 00:31:33,105 INFO: App startup [in C:\Users\kylew\Documents\OnlyInformed\app\__init__.py:76]
+2024-12-09 00:48:24,365 INFO: App startup [in C:\Users\kylew\Documents\OnlyInformed\app\__init__.py:76]
+2024-12-09 01:00:11,969 INFO: App startup [in C:\Users\kylew\Documents\OnlyInformed\app\__init__.py:76]
+2024-12-09 01:00:36,974 INFO: App startup [in C:\Users\kylew\Documents\OnlyInformed\app\__init__.py:76]
+2024-12-09 01:01:10,540 INFO: App startup [in C:\Users\kylew\Documents\OnlyInformed\app\__init__.py:76]
+2024-12-09 01:01:32,276 INFO: Article ID 409: No quiz found. Generating quiz... [in C:\Users\kylew\Documents\OnlyInformed\app\routes.py:113]
+2024-12-09 01:01:32,594 ERROR: Error generating quiz for Article ID 409: This model's maximum context length is 16385 tokens. However, your messages resulted in 27048 tokens. Please reduce the length of the messages. [in C:\Users\kylew\Documents\OnlyInformed\app\quiz_generator.py:106]
+2024-12-09 01:07:58,218 INFO: Article ID 404: No quiz found. Generating quiz... [in C:\Users\kylew\Documents\OnlyInformed\app\routes.py:113]
+2024-12-09 01:08:00,476 INFO: Raw quiz_text for Article ID 404: [
+    {
+        "question": "What is the main topic of the article?",
+        "options": ["History", "Science", "Technology", "Art"],
+        "correct_answer": "Technology"
+    },
+    {
+        "question": "Who is credited with inventing the first computer?",
+        "options": ["Bill Gates", "Steve Jobs", "Alan Turing", "Elon Musk"],
+        "correct_answer": "Alan Turing"
+    },
+    {
+        "question": "What year was the first computer invented?",
+        "options": ["1950", "1975", "1945", "2000"],
+        "correct_answer": "1945"
+    },
+    {
+        "question": "Which programming language is commonly used for artificial intelligence?",
+        "options": ["Java", "Python", "C++", "HTML"],
+        "correct_answer": "Python"
+    },
+    {
+        "question": "What is a common type of storage device for computers?",
+        "options": ["Keyboard", "Monitor", "Hard Drive", "Mouse"],
+        "correct_answer": "Hard Drive"
+    }
+] [in C:\Users\kylew\Documents\OnlyInformed\app\quiz_generator.py:66]
+2024-12-09 01:08:00,478 INFO: Successfully generated quiz object for Article ID 404: Quiz(Article ID: 404, Generated: None) [in C:\Users\kylew\Documents\OnlyInformed\app\quiz_generator.py:93]
+2024-12-09 01:11:36,985 INFO: App startup [in C:\Users\kylew\Documents\OnlyInformed\app\__init__.py:76]
+2024-12-09 01:11:56,502 INFO: Article ID 409: No quiz found. Generating quiz... [in C:\Users\kylew\Documents\OnlyInformed\app\routes.py:113]
+2024-12-09 01:11:56,852 ERROR: Error generating quiz for Article ID 409: This model's maximum context length is 16385 tokens. However, your messages resulted in 27048 tokens. Please reduce the length of the messages. [in C:\Users\kylew\Documents\OnlyInformed\app\quiz_generator.py:106]
+2024-12-09 01:54:09,903 INFO: App startup [in C:\Users\kylew\Documents\OnlyInformed\app\__init__.py:76]
+2024-12-09 01:54:25,375 INFO: App startup [in C:\Users\kylew\Documents\OnlyInformed\app\__init__.py:76]
+2024-12-09 01:54:40,406 INFO: Article ID 409: No quiz found. Generating quiz... [in C:\Users\kylew\Documents\OnlyInformed\app\routes.py:113]

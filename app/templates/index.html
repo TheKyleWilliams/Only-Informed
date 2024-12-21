@@ -1,15 +1,41 @@
 {% extends "base.html" %}
 {% block title %}Home | Only Informed{% endblock %}
 {% block content %}
-<div class="jumbotron">
-    <h1 class="display-4">Welcome to Only Informed</h1>
-    <p class="lead">Stay informed with the latest news and test your understanding.</p>
-    <hr class="my-4">
-    <p>Get started by browsing our articles or signing up if you're new.</p>
-    <a class="btn btn-primary btn-lg" href="{{ url_for('register') }}" role="button">Sign Up</a>
-    <a class="btn btn-secondary btn-lg" href="{{ url_for('articles') }}" role="button">Browse Articles</a>
+<div class="p-5 mb-4 bg-primary text-white rounded-3">
+    <div class="container-fluid py-5">
+        <h1 class="display-4 fw-bold">Welcome to Only Informed</h1>
+        <p class="col-md-8 fs-5">Stay informed with the latest news and test your understanding through engaging quizzes.</p>
+        
+        {% if not current_user.is_authenticated %}
+            <a class="btn btn-outline-light btn-lg me-3" href="{{ url_for('register') }}" role="button">Sign Up</a>
+        {% endif %}
+
+        <a class="btn btn-light btn-lg" href="{{ url_for('articles') }}" role="button">Browse Articles</a>
+    </div>
+</div>
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-6 mb-4">
+            <div class="card h-100 shadow-sm">
+                <img src="{{ url_for('static', filename='images/info1.jpg') }}" class="card-img-top" alt="Informative Image 1" loading="lazy">
+                <div class="card-body">
+                    <h5 class="card-title">Stay Updated</h5>
+                    <p class="card-text">Access the latest news from around the world, curated just for you.</p>
+                    <a href="{{ url_for('articles') }}" class="btn btn-primary">Read More</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6 mb-4">
+            <div class="card h-100 shadow-sm">
+                <img src="{{ url_for('static', filename='images/info2.jpg') }}" class="card-img-top" alt="Informative Image 2" loading="lazy">
+                <div class="card-body">
+                    <h5 class="card-title">Test Your Knowledge</h5>
+                    <p class="card-text">Engage with quizzes after each article to reinforce your understanding.</p>
+                    <a href="{{ url_for('articles') }}" class="btn btn-primary">Start Quiz</a>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 {% endblock %}
-
-
-

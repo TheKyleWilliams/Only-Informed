@@ -33,33 +33,42 @@ def generate_quiz(article_id, retries=3, delay=5):
 
     # Design the prompt
     prompt = f"""
-    Read the following article and generate a 5-question multiple-choice quiz to test the reader's understanding of the content. Each question should have one correct answer and three plausible distractors. Ensure that the response is valid JSON without markdown or code fencing.
+    You are an AI that generates quizzes based strictly on the provided article. 
+    Do not include markdown formatting, code fences, or any text outside of the JSON.
 
-    Format:
-    [
-        {{
-            "question": "Question text",
-            "options": ["A", "B", "C", "D"],
-            "correct_answer": "A"
-        }},
-        ...
-    ]
+    Requirements:
+    - Produce exactly 5 questions.
+    - Each question must have one "question" field, one "options" field (4 distinct options), and one "correct_answer" field.
+    - The "correct_answer" must be exactly one of the provided options.
+    - Randomize the position of the correct answer among the options; do NOT always make the first option correct.
+    - No duplicate keys or repeated questions.
+    - The final answer should be a JSON array and nothing else.
 
-    Article:
-    {article.content}
-    """
+        Format exactly as:
+        [
+            {{
+                "question": "Question text",
+                "options": ["Option1", "Option2", "Option3", "Option4"],
+                "correct_answer": "OptionX"
+            }},
+            ... (5 total)
+        ]
+
+        Article:
+        {article.content}
+        """
 
     for attempt in range(retries):
         try:
             response = openai.ChatCompletion.create(
-                model="gpt-3.5-turbo",
-                messages=[
-                    {"role": "system", "content": "You are an AI that generates quiz questions."},
-                    {"role": "user", "content": prompt}
-                ],
-                max_tokens=1000,
-                temperature=0.7
-            )
+            model="gpt-4o",
+            messages=[
+                {"role": "system", "content": "You are a helpful assistant that generates strictly formatted quizzes. You must randomize the potiion of the correct answer in the options, it should never be always the first."},
+                {"role": "user", "content": prompt}
+            ],
+            max_tokens=1000,
+            temperature=0.7
+        )
             
             quiz_text = response['choices'][0]['message']['content'].strip()
             quiz_text = clean_quiz_text(quiz_text)

@@ -1,0 +1,128 @@
+2024-12-08 23:00:23,614 ERROR: Exception on / [GET] [in C:\Users\kylew\Documents\OnlyInformed\venv\Lib\site-packages\flask\app.py:838]
+Traceback (most recent call last):
+  File "C:\Users\kylew\Documents\OnlyInformed\venv\Lib\site-packages\flask\app.py", line 1473, in wsgi_app
+    response = self.full_dispatch_request()
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\kylew\Documents\OnlyInformed\venv\Lib\site-packages\flask\app.py", line 882, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\kylew\Documents\OnlyInformed\venv\Lib\site-packages\flask\app.py", line 880, in full_dispatch_request
+    rv = self.dispatch_request()
+         ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\kylew\Documents\OnlyInformed\venv\Lib\site-packages\flask\app.py", line 865, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\kylew\Documents\OnlyInformed\app\routes.py", line 22, in home
+    return render_template('index.html')
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\kylew\Documents\OnlyInformed\venv\Lib\site-packages\flask\templating.py", line 150, in render_template
+    return _render(app, template, context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\kylew\Documents\OnlyInformed\venv\Lib\site-packages\flask\templating.py", line 131, in _render
+    rv = template.render(context)
+         ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\kylew\Documents\OnlyInformed\venv\Lib\site-packages\jinja2\environment.py", line 1304, in render
+    self.environment.handle_exception()
+  File "C:\Users\kylew\Documents\OnlyInformed\venv\Lib\site-packages\jinja2\environment.py", line 939, in handle_exception
+    raise rewrite_traceback_stack(source=source)
+  File "C:\Users\kylew\Documents\OnlyInformed\app\templates\index.html", line 1, in top-level template code
+    {% extends "base.html" %}
+  File "C:\Users\kylew\Documents\OnlyInformed\app\templates\base.html", line 71, in top-level template code
+    {% block content %}{% endblock %}
+    ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\kylew\Documents\OnlyInformed\app\templates\index.html", line 9, in block 'content'
+    <a class="btn btn-primary btn-lg" href="{{ url_for('register') }}" role="button">Sign Up</a>
+    ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\kylew\Documents\OnlyInformed\venv\Lib\site-packages\flask\app.py", line 1084, in url_for
+    return self.handle_url_build_error(error, endpoint, values)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\kylew\Documents\OnlyInformed\venv\Lib\site-packages\flask\app.py", line 1073, in url_for
+    rv = url_adapter.build(  # type: ignore[union-attr]
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\kylew\Documents\OnlyInformed\venv\Lib\site-packages\werkzeug\routing\map.py", line 924, in build
+    raise BuildError(endpoint, values, method, self)
+werkzeug.routing.exceptions.BuildError: Could not build url for endpoint 'register'. Did you mean 'main.register' instead?
+2024-12-08 23:01:44,290 INFO: App startup [in C:\Users\kylew\Documents\OnlyInformed\app\__init__.py:76]
+2024-12-08 23:02:30,677 ERROR: Exception on /article/401 [GET] [in C:\Users\kylew\Documents\OnlyInformed\venv\Lib\site-packages\flask\app.py:838]
+Traceback (most recent call last):
+  File "C:\Users\kylew\Documents\OnlyInformed\venv\Lib\site-packages\flask\app.py", line 1473, in wsgi_app
+    response = self.full_dispatch_request()
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\kylew\Documents\OnlyInformed\venv\Lib\site-packages\flask\app.py", line 882, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\kylew\Documents\OnlyInformed\venv\Lib\site-packages\flask\app.py", line 880, in full_dispatch_request
+    rv = self.dispatch_request()
+         ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\kylew\Documents\OnlyInformed\venv\Lib\site-packages\flask\app.py", line 865, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\kylew\Documents\OnlyInformed\venv\Lib\site-packages\flask_login\utils.py", line 290, in decorated_view
+    return current_app.ensure_sync(func)(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\kylew\Documents\OnlyInformed\app\routes.py", line 125, in article
+    return render_template('article.html', article=article, quiz=quiz)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\kylew\Documents\OnlyInformed\venv\Lib\site-packages\flask\templating.py", line 150, in render_template
+    return _render(app, template, context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\kylew\Documents\OnlyInformed\venv\Lib\site-packages\flask\templating.py", line 131, in _render
+    rv = template.render(context)
+         ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\kylew\Documents\OnlyInformed\venv\Lib\site-packages\jinja2\environment.py", line 1304, in render
+    self.environment.handle_exception()
+  File "C:\Users\kylew\Documents\OnlyInformed\venv\Lib\site-packages\jinja2\environment.py", line 939, in handle_exception
+    raise rewrite_traceback_stack(source=source)
+  File "C:\Users\kylew\Documents\OnlyInformed\app\templates\article.html", line 1, in top-level template code
+    {% extends "base.html" %}
+  File "C:\Users\kylew\Documents\OnlyInformed\app\templates\base.html", line 71, in top-level template code
+    {% block content %}{% endblock %}
+    ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\kylew\Documents\OnlyInformed\app\templates\article.html", line 81, in block 'content'
+    <form action="{{ url_for('post_comment', article_id=article.id )}}" method="POST">
+    ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\kylew\Documents\OnlyInformed\venv\Lib\site-packages\flask\app.py", line 1084, in url_for
+    return self.handle_url_build_error(error, endpoint, values)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\kylew\Documents\OnlyInformed\venv\Lib\site-packages\flask\app.py", line 1073, in url_for
+    rv = url_adapter.build(  # type: ignore[union-attr]
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\kylew\Documents\OnlyInformed\venv\Lib\site-packages\werkzeug\routing\map.py", line 924, in build
+    raise BuildError(endpoint, values, method, self)
+werkzeug.routing.exceptions.BuildError: Could not build url for endpoint 'post_comment' with values ['article_id']. Did you mean 'main.post_comment' instead?
+2024-12-08 23:06:44,388 INFO: App startup [in C:\Users\kylew\Documents\OnlyInformed\app\__init__.py:76]
+2024-12-08 23:10:23,266 INFO: App startup [in C:\Users\kylew\Documents\OnlyInformed\app\__init__.py:76]
+2024-12-08 23:13:49,449 INFO: App startup [in C:\Users\kylew\Documents\OnlyInformed\app\__init__.py:76]
+2024-12-08 23:28:57,015 INFO: App startup [in C:\Users\kylew\Documents\OnlyInformed\app\__init__.py:76]
+2024-12-08 23:34:39,958 INFO: App startup [in C:\Users\kylew\Documents\OnlyInformed\app\__init__.py:76]
+2024-12-08 23:35:49,329 INFO: Article ID 405: No quiz found. Generating quiz... [in C:\Users\kylew\Documents\OnlyInformed\app\routes.py:113]
+2024-12-08 23:35:51,877 INFO: Raw quiz_text for Article ID 405: [
+    {
+        "question": "What is the main topic of the article?",
+        "options": ["Artificial Intelligence", "Climate Change", "Space Exploration", "Fashion Trends"],
+        "correct_answer": "Artificial Intelligence"
+    },
+    {
+        "question": "Which technology is mentioned as a key component of the discussed topic?",
+        "options": ["Blockchain", "Virtual Reality", "Nanotechnology", "3D Printing"],
+        "correct_answer": "Blockchain"
+    },
+    {
+        "question": "What potential benefits does the article attribute to the main topic?",
+        "options": ["Improved healthcare", "Reduced energy consumption", "Enhanced transportation", "Increased pollution"],
+        "correct_answer": "Improved healthcare"
+    },
+    {
+        "question": "Which industry is highlighted as being impacted by the advancements in the main topic?",
+        "options": ["Agriculture", "Construction", "Entertainment", "Mining"],
+        "correct_answer": "Entertainment"
+    },
+    {
+        "question": "What ethical considerations are raised in relation to the main topic?",
+        "options": ["Privacy concerns", "Fashion trends", "Food preferences", "Travel destinations"],
+        "correct_answer": "Privacy concerns"
+    }
+] [in C:\Users\kylew\Documents\OnlyInformed\app\quiz_generator.py:66]
+2024-12-08 23:35:51,879 INFO: Successfully generated quiz object for Article ID 405: Quiz(Article ID: 405, Generated: None) [in C:\Users\kylew\Documents\OnlyInformed\app\quiz_generator.py:93]
+2024-12-08 23:50:16,719 INFO: App startup [in C:\Users\kylew\Documents\OnlyInformed\app\__init__.py:76]
+2024-12-09 00:04:44,625 INFO: App startup [in C:\Users\kylew\Documents\OnlyInformed\app\__init__.py:76]

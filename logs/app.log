@@ -1,0 +1,24 @@
+2024-12-09 02:53:47,116 ERROR: Exception on /article/410 [GET] [in C:\Users\kylew\Documents\OnlyInformed\venv\Lib\site-packages\flask\app.py:838]
+Traceback (most recent call last):
+  File "C:\Users\kylew\Documents\OnlyInformed\venv\Lib\site-packages\flask\app.py", line 1473, in wsgi_app
+    response = self.full_dispatch_request()
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\kylew\Documents\OnlyInformed\venv\Lib\site-packages\flask\app.py", line 882, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\kylew\Documents\OnlyInformed\venv\Lib\site-packages\flask\app.py", line 880, in full_dispatch_request
+    rv = self.dispatch_request()
+         ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\kylew\Documents\OnlyInformed\venv\Lib\site-packages\flask\app.py", line 865, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\kylew\Documents\OnlyInformed\venv\Lib\site-packages\flask_login\utils.py", line 290, in decorated_view
+    return current_app.ensure_sync(func)(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\kylew\Documents\OnlyInformed\app\routes.py", line 149, in article
+    if user_quiz and user_quiz.score >= quiz.required_score:
+                                        ^^^^^^^^^^^^^^^^^^^
+AttributeError: 'Quiz' object has no attribute 'required_score'
+2024-12-09 03:05:40,334 INFO: App startup [in C:\Users\kylew\Documents\OnlyInformed\app\__init__.py:76]
+2024-12-09 03:06:42,399 INFO: User 2 scored 1/5. Passed: False [in C:\Users\kylew\Documents\OnlyInformed\app\routes.py:236]
+2024-12-09 03:06:42,400 INFO: Created new UserQuiz entry for User ID 2 and Quiz ID 109 with Passed: False, Score: 1 [in C:\Users\kylew\Documents\OnlyInformed\app\routes.py:250]

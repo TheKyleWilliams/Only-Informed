@@ -1,24 +1,116 @@
-/* General Styles */
+/* Body Styling */
 body {
-    font-family: Arial, sans-serif;
-    margin-top: 70px;
+    font-family: 'Roboto', sans-serif;
+    background-color: #F5F5F5;
+    color: #333333;
 }
 
-/* Navigation Bar Customization */
+/* Navbar Customization */
 .navbar-brand {
-    font-weight: bold;
+    font-weight: 700;
+    font-size: 1.5rem;
 }
 
-.navbar-nav .nav-link {
-    margin-right: 15px;
+.nav-link {
+    font-size: 1rem;
 }
 
-/* Container Styling */
-.container {
-    max-width: 960px;
+.nav-link:hover {
+    color: #FF6F61;
 }
 
 /* Flash Messages */
 .alert {
-    margin-top: 20px;
+    border-radius: 0.5rem;
+    font-size: 1rem;
+}
+
+/* Buttons */
+.btn-primary {
+    background-color: #2D6CDF;
+    border-color: #2D6CDF;
+    transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+
+.btn-primary:hover {
+    background-color: #1B4F9C;
+    border-color: #1B4F9C;
+}
+
+.btn-outline-light {
+    border-color: #FFFFFF;
+    color: #FFFFFF;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.btn-outline-light:hover {
+    background-color: #FFFFFF;
+    color: #2D6CDF;
+}
+
+.btn-light {
+    background-color: #FFFFFF;
+    color: #2D6CDF;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.btn-light:hover {
+    background-color: #FF6F61;
+    color: #FFFFFF;
+}
+
+/* Footer Styling */
+footer {
+    position: relative;
+    width: 100%;
+}
+
+/* Article Cards */
+.card-img-top {
+    height: 200px;
+    object-fit: cover;
+}
+
+.card-title {
+    font-weight: 700;
+}
+
+.card-text {
+    font-size: 0.95rem;
+}
+
+/* Hero Section */
+.p-5.mb-4.bg-primary.text-white.rounded-3 {
+    background-image: url('{{ url_for('static', filename='images/hero-bg.jpg') }}');
+    background-size: cover;
+    background-position: center;
+    color: #FFFFFF;
+}
+
+.p-5.mb-4.bg-primary.text-white.rounded-3 h1 {
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+}
+
+.p-5.mb-4.bg-primary.text-white.rounded-3 p {
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+}
+
+/* Social Media Icons */
+footer a {
+    font-size: 1.2rem;
+}
+
+footer a:hover {
+    color: #FF6F61;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+    .card-img-top {
+        height: 150px;
+    }
+
+    .navbar-brand {
+        font-size: 1.3rem;
+    }
 }

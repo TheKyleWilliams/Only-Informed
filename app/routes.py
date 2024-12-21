@@ -87,7 +87,7 @@ def logout():
 def articles():
     # grabs page parameter, default = 1 if none is provided
     page = request.args.get('page', 1, type=int)
-    articles = Article.query.order_by(Article.date_posted.desc()).paginate(page=page, per_page=10)
+    articles = Article.query.order_by(Article.date_posted.desc()).paginate(page=page, per_page=12)
     return render_template('articles.html', articles=articles)
 
 @app.route('/article/<int:article_id>', methods=['GET'])
@@ -349,3 +349,8 @@ def delete_comment(comment_id):
 
     flash('Your comment has been deleted!', 'success')
     return redirect(url_for('article', article_id=comment.article_id))
+
+
+
+def inject_current_year():
+    return {'current_year': datetime.now(timezone.utc)}

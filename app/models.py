@@ -4,14 +4,6 @@ from flask_login import UserMixin
 from sqlalchemy.sql import expression
 import json
 
-# Notes 
-# for one-to-many relationships, use relationship() on the 'one' side 
-#    backref creates a virtual column on the 'many' side to access the parent
-# for one-to-one relationships
-#    use relationship() with uselist=False to enforce one-to-one
-# for many-to-many relationships with additional columns
-#    define an association model class instead of using db.Table
-
 @login_manager.user_loader  # Flask-Login Decorator
 def load_user(user_id):
     # Fetches user object from User table
@@ -45,7 +37,8 @@ class Article(db.Model):
     content = db.Column(db.Text, nullable=False)
     source = db.Column(db.String(200), nullable=False)
     date_posted = db.Column(db.DateTime, nullable=False, default=datetime.now(timezone.utc))
- 
+    image_url = db.Column(db.String(500), nullable=True)  # New field for main image
+
     # relationships 
     quiz = db.relationship('Quiz', uselist=False, backref='article')  # uselist=False indicates a 1-to-1 relationship with quiz
     comments = db.relationship('Comment', backref='article', lazy=True)
@@ -53,7 +46,7 @@ class Article(db.Model):
     # string representation for Article object
     def __repr__(self):
         return f"Article('{self.title}', '{self.source}')"
-    
+
 # Quiz Entity
 class Quiz(db.Model):
     __tablename__ = 'quiz'

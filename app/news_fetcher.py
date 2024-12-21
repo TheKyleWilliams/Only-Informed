@@ -1,67 +1,68 @@
 import feedparser
 from app import db
 from app.models import Article
-from datetime import datetime
+from datetime import datetime, timezone
 from dateutil import parser as date_parser
 from newspaper import Article as NewsArticle
 import ssl
 
-# bypass SSL certificate errors, if any
+# Bypass SSL certificate errors, if any
 ssl._create_default_https_context = ssl._create_unverified_context
 
 def fetch_articles():
-    # list of RSS feed URLs
+    # List of RSS feed URLs
     feeds = [
         'https://feeds.bbci.co.uk/news/world/rss.xml'
     ]
 
-    # loop through RSS feeds
+    # Loop through RSS feeds
     for feed_url in feeds:
         try:
             feed = feedparser.parse(feed_url)
 
-            # check for parsing errors
+            # Check for parsing errors
             if feed.bozo:
                 print(f"Error parsing feed: {feed_url}")
-                continue # skips to next feed
+                continue  # Skips to next feed
 
-            # cycles through individual articles
+            # Cycle through individual articles
             for entry in feed.entries:
-                # extract relevant data from RSS feed structure
+                # Extract relevant data from RSS feed structure
                 title = entry.title
                 link = entry.link
-                #summary = entry.summary if 'summary' in entry else ''
+                # summary = entry.summary if 'summary' in entry else ''
 
-                # handle different date formats
+                # Handle different date formats
                 if 'published' in entry:
                     date_str = entry.published
                 elif 'updated' in entry:
                     date_str = entry.updated
                 else:
-                    date_str = datetime.now(datetime.timezone.utc).isoformat() # current time
+                    date_str = datetime.now(timezone.utc).isoformat()  # Current time
 
                 try:
                     published_date = date_parser.parse(date_str)
                 except (ValueError, TypeError) as e:
                     print(f"Date parsing error for entry '{title}': {e}")
-                    published_date = datetime.now(datetime.timezone.utc)
+                    published_date = datetime.now(timezone.utc)
 
-                # check if article already exists in database
+                # Check if article already exists in database
                 existing_article = Article.query.filter_by(title=title).first()
 
-                # if new article
+                # If new article
                 if not existing_article:
-                    article_text = get_full_article_content(link)
+                    article_text, top_image = get_full_article_content(link, title)  # Pass both link and title
 
-                    # create new article object
+                    # Create new article object
                     article = Article(
-                        title = title,
-                        content = article_text,
-                        source = link,
-                        date_posted = published_date
+                        title=title,
+                        content=article_text,
+                        source=link,
+                        date_posted=published_date,
+                        image_url=top_image  # Save the main image URL
                     )
 
-                    # add to database session, then commit to save
+                    # Add to database session, then commit to save
                     db.session.add(article)
                     db.session.commit()
                     print(f"Added article: {title}")
@@ -69,19 +70,34 @@ def fetch_articles():
                     print(f"Article already exists: {title}")
 
         except Exception as e:
-            print(f"Exception occured while fetching feed {feed_url}: {e}")
+            print(f"Exception occurred while fetching feed {feed_url}: {e}")
 
-# grab entire article content 
-def get_full_article_content(url):
+# Grab entire article content and main image URL
+def get_full_article_content(url, title):
     article = NewsArticle(url)
     article.download()
     article.parse()
-    return article.text
+    content = article.text
 
-# allows news_fetcher to be run manually as a module
+    # Remove the title from the content if present
+    if content.startswith(title):
+        content = content[len(title):].strip()
+
+    # Remove lines that are likely to be image captions
+    lines = content.split('\n')
+    cleaned_lines = []
+    for line in lines:
+        # Remove lines that start with 'Watch:' or contain specific keywords
+        if not line.lower().startswith('watch:') and not 'prison' in line.lower():
+            cleaned_lines.append(line)
+    cleaned_content = '\n'.join(cleaned_lines)
+
+    return cleaned_content, article.top_image
+
+# Allows news_fetcher to be run manually as a module
 if __name__ == '__main__':
     from app import app
 
-    # ensures that app operations will run despite flask not be 'run'
+    # Ensures that app operations will run despite Flask not being 'run'
     with app.app_context(): 
         fetch_articles()

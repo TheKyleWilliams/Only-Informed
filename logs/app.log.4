@@ -1,0 +1,130 @@
+2024-12-08 22:49:02,276 INFO: App startup [in C:\Users\kylew\Documents\OnlyInformed\app\__init__.py:76]
+2024-12-08 22:49:05,581 ERROR: Exception on / [GET] [in C:\Users\kylew\Documents\OnlyInformed\venv\Lib\site-packages\flask\app.py:838]
+Traceback (most recent call last):
+  File "C:\Users\kylew\Documents\OnlyInformed\venv\Lib\site-packages\flask\app.py", line 1473, in wsgi_app
+    response = self.full_dispatch_request()
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\kylew\Documents\OnlyInformed\venv\Lib\site-packages\flask\app.py", line 882, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\kylew\Documents\OnlyInformed\venv\Lib\site-packages\flask\app.py", line 880, in full_dispatch_request
+    rv = self.dispatch_request()
+         ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\kylew\Documents\OnlyInformed\venv\Lib\site-packages\flask\app.py", line 865, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\kylew\Documents\OnlyInformed\app\routes.py", line 22, in home
+    return render_template('index.html')
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\kylew\Documents\OnlyInformed\venv\Lib\site-packages\flask\templating.py", line 150, in render_template
+    return _render(app, template, context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\kylew\Documents\OnlyInformed\venv\Lib\site-packages\flask\templating.py", line 131, in _render
+    rv = template.render(context)
+         ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\kylew\Documents\OnlyInformed\venv\Lib\site-packages\jinja2\environment.py", line 1304, in render
+    self.environment.handle_exception()
+  File "C:\Users\kylew\Documents\OnlyInformed\venv\Lib\site-packages\jinja2\environment.py", line 939, in handle_exception
+    raise rewrite_traceback_stack(source=source)
+  File "C:\Users\kylew\Documents\OnlyInformed\app\templates\index.html", line 1, in top-level template code
+    {% extends "base.html" %}
+  File "C:\Users\kylew\Documents\OnlyInformed\app\templates\base.html", line 21, in top-level template code
+    <a class="navbar-brand" href="{{ url_for('home') }}">Only Informed</a>
+    ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\kylew\Documents\OnlyInformed\venv\Lib\site-packages\flask\app.py", line 1084, in url_for
+    return self.handle_url_build_error(error, endpoint, values)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\kylew\Documents\OnlyInformed\venv\Lib\site-packages\flask\app.py", line 1073, in url_for
+    rv = url_adapter.build(  # type: ignore[union-attr]
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\kylew\Documents\OnlyInformed\venv\Lib\site-packages\werkzeug\routing\map.py", line 924, in build
+    raise BuildError(endpoint, values, method, self)
+werkzeug.routing.exceptions.BuildError: Could not build url for endpoint 'home'. Did you mean 'main.home' instead?
+2024-12-08 22:54:06,609 INFO: App startup [in C:\Users\kylew\Documents\OnlyInformed\app\__init__.py:76]
+2024-12-08 22:54:20,217 ERROR: Exception on / [GET] [in C:\Users\kylew\Documents\OnlyInformed\venv\Lib\site-packages\flask\app.py:838]
+Traceback (most recent call last):
+  File "C:\Users\kylew\Documents\OnlyInformed\venv\Lib\site-packages\flask\app.py", line 1473, in wsgi_app
+    response = self.full_dispatch_request()
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\kylew\Documents\OnlyInformed\venv\Lib\site-packages\flask\app.py", line 882, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\kylew\Documents\OnlyInformed\venv\Lib\site-packages\flask\app.py", line 880, in full_dispatch_request
+    rv = self.dispatch_request()
+         ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\kylew\Documents\OnlyInformed\venv\Lib\site-packages\flask\app.py", line 865, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\kylew\Documents\OnlyInformed\app\routes.py", line 22, in home
+    return render_template('index.html')
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\kylew\Documents\OnlyInformed\venv\Lib\site-packages\flask\templating.py", line 150, in render_template
+    return _render(app, template, context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\kylew\Documents\OnlyInformed\venv\Lib\site-packages\flask\templating.py", line 131, in _render
+    rv = template.render(context)
+         ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\kylew\Documents\OnlyInformed\venv\Lib\site-packages\jinja2\environment.py", line 1304, in render
+    self.environment.handle_exception()
+  File "C:\Users\kylew\Documents\OnlyInformed\venv\Lib\site-packages\jinja2\environment.py", line 939, in handle_exception
+    raise rewrite_traceback_stack(source=source)
+  File "C:\Users\kylew\Documents\OnlyInformed\app\templates\index.html", line 1, in top-level template code
+    {% extends "base.html" %}
+  File "C:\Users\kylew\Documents\OnlyInformed\app\templates\base.html", line 34, in top-level template code
+    <a class="nav-link" href="{{ url_for('logout') }}">Logout</a>
+    ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\kylew\Documents\OnlyInformed\venv\Lib\site-packages\flask\app.py", line 1084, in url_for
+    return self.handle_url_build_error(error, endpoint, values)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\kylew\Documents\OnlyInformed\venv\Lib\site-packages\flask\app.py", line 1073, in url_for
+    rv = url_adapter.build(  # type: ignore[union-attr]
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\kylew\Documents\OnlyInformed\venv\Lib\site-packages\werkzeug\routing\map.py", line 924, in build
+    raise BuildError(endpoint, values, method, self)
+werkzeug.routing.exceptions.BuildError: Could not build url for endpoint 'logout'. Did you mean 'main.logout' instead?
+2024-12-08 22:58:19,532 INFO: App startup [in C:\Users\kylew\Documents\OnlyInformed\app\__init__.py:76]
+2024-12-08 22:58:21,873 ERROR: Exception on / [GET] [in C:\Users\kylew\Documents\OnlyInformed\venv\Lib\site-packages\flask\app.py:838]
+Traceback (most recent call last):
+  File "C:\Users\kylew\Documents\OnlyInformed\venv\Lib\site-packages\flask\app.py", line 1473, in wsgi_app
+    response = self.full_dispatch_request()
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\kylew\Documents\OnlyInformed\venv\Lib\site-packages\flask\app.py", line 882, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\kylew\Documents\OnlyInformed\venv\Lib\site-packages\flask\app.py", line 880, in full_dispatch_request
+    rv = self.dispatch_request()
+         ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\kylew\Documents\OnlyInformed\venv\Lib\site-packages\flask\app.py", line 865, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\kylew\Documents\OnlyInformed\app\routes.py", line 22, in home
+    return render_template('index.html')
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\kylew\Documents\OnlyInformed\venv\Lib\site-packages\flask\templating.py", line 150, in render_template
+    return _render(app, template, context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\kylew\Documents\OnlyInformed\venv\Lib\site-packages\flask\templating.py", line 131, in _render
+    rv = template.render(context)
+         ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\kylew\Documents\OnlyInformed\venv\Lib\site-packages\jinja2\environment.py", line 1304, in render
+    self.environment.handle_exception()
+  File "C:\Users\kylew\Documents\OnlyInformed\venv\Lib\site-packages\jinja2\environment.py", line 939, in handle_exception
+    raise rewrite_traceback_stack(source=source)
+  File "C:\Users\kylew\Documents\OnlyInformed\app\templates\index.html", line 1, in top-level template code
+    {% extends "base.html" %}
+  File "C:\Users\kylew\Documents\OnlyInformed\app\templates\base.html", line 71, in top-level template code
+    {% block content %}{% endblock %}
+    ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\kylew\Documents\OnlyInformed\app\templates\index.html", line 9, in block 'content'
+    <a class="btn btn-primary btn-lg" href="{{ url_for('register') }}" role="button">Sign Up</a>
+    ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\kylew\Documents\OnlyInformed\venv\Lib\site-packages\flask\app.py", line 1084, in url_for
+    return self.handle_url_build_error(error, endpoint, values)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\kylew\Documents\OnlyInformed\venv\Lib\site-packages\flask\app.py", line 1073, in url_for
+    rv = url_adapter.build(  # type: ignore[union-attr]
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\kylew\Documents\OnlyInformed\venv\Lib\site-packages\werkzeug\routing\map.py", line 924, in build
+    raise BuildError(endpoint, values, method, self)
+werkzeug.routing.exceptions.BuildError: Could not build url for endpoint 'register'. Did you mean 'main.register' instead?
+2024-12-08 23:00:21,721 INFO: App startup [in C:\Users\kylew\Documents\OnlyInformed\app\__init__.py:76]
